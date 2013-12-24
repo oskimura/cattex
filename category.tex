@@ -1,0 +1,1119 @@
+\documentclass{jarticle}
+\usepackage{amscd}
+\usepackage[thmmarks]{ntheorem}
+\usepackage{amssymb}
+
+\usepackage{amsmath}
+
+%% \usepackage{amsthm}
+
+\usepackage[all]{xy}
+
+\newtheorem{Definition}{定義}[section]
+\newtheorem{Theorem}{定理}[section]
+\newtheorem{Lemma}{補助定理}[section]
+\newtheorem{Proof}{証明}[section]
+
+
+
+
+\title{圏論まとめ}
+\author{oskimura}
+\date
+\maketitle
+
+\begin{document}
+
+\tableofcontents
+
+\newpage
+
+\section{圏の定義}
+
+\begin{Definition}[圏の定義] \mbox{}
+
+\begin{description}
+\item [Object] \mbox{}
+
+圏の対象
+
+\item [Arrow/Morphism] \mbox{}
+
+圏の射
+
+\item [dom(始域), cod(終域)] \mbox{}
+
+各射にたいしてdom(f)とcod(f)が割り当てられている
+\begin{align}
+dom(f)=A \\
+cod(f)=B
+\end{align}
+
+のとき
+$f:A \to B$
+または、
+$A \stackrel{f}{\to} B$
+と表現し、fはAからBへの射であると言う。
+AからBへの射全体を $C(A,B)$と表現する。
+可換図で表現すると以下のとおりとなる
+
+$$
+\xymatrix{
+  A \ar[r]^f & B \\
+}
+$$
+
+圏Cの対象AからBへの射の集合を次の様にかく
+\[
+ Hom_{Sets^{C}}(A,B) = Hom_{C}(A,B) = Hom(A,B) = C(A,B) = (A,B) = (A,B)_{C}
+\]
+この記述は全て同じ意味である
+
+
+
+\item [composition(射の合成)] \mbox{}
+
+$cod(f) = dom(g)$ならば
+
+%%A \stackrel{f}{\to} B \stackrel{g}{\to} C
+$$
+\begin{CD}
+A @>f >> B @>g >>C \\
+\end{CD}
+$$
+
+図の様に$ f : A \to B $と $ f : B \to C $の二つの射が合成出来る。
+射の合成を  $ g \circ f $ または、 $ f ; g $ と表現する
+
+可換図で書くと次のとおりである
+
+$$
+\xymatrix{
+ A \ar[r]^f \ar[dr]_{f;g}
+  & B \ar[d]^g \\
+  & C }
+$$
+
+
+
+\end{description}
+
+\end{Definition}
+
+\section{圏の公理}
+\begin{description}
+
+
+\item [合成] \mbox{}
+
+$ g \circ f $  が定義されていれば、
+$ dom(g \circ f) = dom(f) $ かつ $ cod(g \circ f) = cod(g) $
+である
+可換図で表現すると次の形となる
+
+$$
+\xymatrix{
+ A \ar[r]^f \ar[dr]_{f;g}
+  & B \ar[d]^g \\
+  & C }
+$$
+
+\item [結合則] \mbox{}
+
+任意の射 $ f : A \to B 、f : B \to C、 h : C \to D $ が存在したときに、
+$ \circ $ は結合法則を満たす
+\[
+ h \circ (g \circ f) = (h \circ g) \circ f
+\]
+
+また、$ f : A \to B  $と $ f : B \to C $となる射と $ h : A \to C $となる射が存在し
+
+$$
+\xymatrix{
+   A \ar@{->}[r]^{f}\ar@{->}[d]_{h}  & B \ar@{->}[dl]^{g}\\
+   C  & \\
+}
+$$
+となるhが存在する場合、
+hと$ f \circ g $ は可換であるとする
+
+
+
+
+
+\item [identity (恒等射)] \mbox{}
+
+各対象Bについて恒等射 $ id_B: B \to B $ が定義されている。
+恒等射は $ f : A \to B $, $ g : B \to C $ に対して
+$ id_B \circ g = g $ かつ  $ f \circ id_B = f $
+が成り立つ。
+これは単位元律という。
+
+恒等射は次の様にも記述する。
+$ 1_{f} $
+
+
+$$
+\xymatrix{
+ A \ar@{->}[r]^{g} \ar@{->}[dr]_{g} & B \ar@{->}[r]^{f}  \ar@{->}[d]^{id_B} & C \\
+ & B \ar@{->}[ur]_{f} }
+$$
+
+
+
+
+\end{description}
+
+\newpage
+
+
+\section{圏の例}
+\begin{description}
+\item [0] \mbox{}
+
+空圏と呼ばれる対象も射も存在しない圏
+
+\item [1] \mbox{}
+
+一つの対象と一つの射（恒等射）からなる圏
+
+
+\item [2] \mbox{}
+
+二つの対象と一つの射（恒等射除く）からなる圏
+
+\item [3] \mbox{}
+
+三つの対象と三つの射（恒等射除く）からなる圏
+
+\item [離散圏] \mbox{}
+
+全ての射が恒等射である圏
+
+\item [Set(集合)] \mbox{}
+
+集合を対象とし、写像を射する圏
+
+\item [Grp(群)] \mbox{}
+
+群を対象とし、準同型を射とする圏\\
+群とは以下の法則を満たすものである。
+
+\begin{itemize}
+ \item 単位元 $ a \times e = e = e \times e $
+ \item 結合法則 $ (a \times b) \times c = a \times (b \times c) $
+ \item 逆元 $ a \times a^{-1} = e = a \times a^{-1}  $
+\end{itemize}
+
+凖同型とは
+\[
+   \forall a, b \in G1
+\]
+\[
+   \forall a^{\prime}, b^{\prime} \in G2
+\]
+と言う二つの群に対して
+\[
+f: G1 \to G2
+\]
+と言う写像f存在し、
+\[
+f(a \otimes b) = f(a) \otimes f(b)
+\]
+
+を満たすこと(さらにfが全単射であれば、同型という)。
+\[
+(G1 \mathpunct) \simeq (G2 \mathpunct)
+\]
+
+
+凖同型の例として加法群と対数関数logがある
+\begin{align*}
+x,g & \in G1(R_+, \times) \\
+log(x),log(g) & \in G2(R, +) \\
+ f = log: & G1 \to G2 \\
+              & \Downarrow \\
+f(x \times g) & =log (x \times g) \\
+              & =log(x) + log(g)  \\
+              & = f(x) + f(g) \\
+\end{align*}
+fはG1からG2への写像である。
+
+
+
+\item [$ C \times C $(直積)] \mbox{}
+
+$C_1,C_2$の圏が存在したとき、次の様に構成した圏
+\[
+\{(A,B) \mid AはC_1の対象, BはC_2の対象 \}
+\]
+射の直積は以下の様に定義する
+\[
+\{(f,g) \mid fはC_1の射, gはC_2の射 \}
+\]
+
+$C_1,C_2$ の直積を新しい記法$ < C_1 \times C_2 > $であらわす事とする \\
+
+
+\item [$C^{op}$ (双対)] \mbox{}
+
+\begin{Definition}[双対]
+Cの圏が存在したとき、次の様に定義される圏$C^{op}$の圏を双対圏と呼ぶ
+
+\begin{align*}
+ f :  B \to A & \in C (B,A) \\
+              & \Updownarrow \\
+ f :  A \to B & \in C^{op}(A,B)
+\end{align*}
+が成り立つことである。
+直観的に述べると全ての射の向きを逆に逆にしたもの
+\end{Definition}
+
+
+\item [Top(トポス)] \mbox{}
+
+位相空間を対象とする圏
+
+(X,O): 位相空間
+集合Xに位相構造をいれたもの
+位相とは開集合を規程する。
+位相空間を対象とし、連続写像を射とする圏である。
+
+
+\item [Poset(半順序集合)] \mbox{}
+
+半順序集合を対象とし、単調関数を射とする圏
+
+
+\item [Cpo (完備半順序集合)] \mbox{}
+
+完備化された半順序集合に対する圏
+
+\item [モノイド] \mbox{}
+
+対象が一つで、
+
+
+\item [しりとりの圏] \mbox{}
+
+しりとりの圏はcodとdomが同じだからといって恒等射とはかぎらない。
+元は有限でも、射は無限にある。(非決定性オートマトンに近い?)
+
+※しりとり必勝法は圏論勉強会からでたらしい
+
+\begin{align*}
+& あい: あ \to い \\
+& idい: い \to い \\
+& いい: い \to い \\
+\end{align*}
+
+$ (A,B) = \{ f | f : A \to B \} $
+$ Hom(A,B) $
+
+
+
+\end{description}
+
+\newpage
+
+\section{モノ}
+\begin{Definition}[モノ] \mbox{}
+
+集合論でいう単射(injection)
+
+$m \circ f1= m \circ f2 $ならば、$f1=f2$が成立するとき$m : A \to B$ をモ
+ ノであると定義する
+
+$$
+\xymatrix{
+D \ar@{->}@<2pt>[r]^{f_1} \ar@{->}@<-2pt>[r]_{f_2} & A \ar@{->}[r]^{m} & B
+}
+$$
+射mを次の様に書く
+$$
+\xymatrix{
+A \ar@{>->}[r]^{m} & B
+}
+$$
+または
+\[
+m: A \rightarrowtail B
+\]
+と表す
+\end{Definition}
+この射は次の条件を満たす
+\begin{align*}
+                 & m(a) = m(b) \Rightarrow a = b \\
+                 \Leftrightarrow  & a \neq b      \Rightarrow m(a) \neq m(b)
+\end{align*}
+
+
+\begin{Definition}[同型] \mbox{}
+
+$$
+\xymatrix{
+A \ar@<1ex>[r]^{f} & B \ar@<1ex>[l]^{g}
+}
+$$
+$f;g=id_A$かつ$g;f=id_B$なるf,gが存在するとき、AとBは同型である
+ という。
+集合論で同型とは全単射が成り立つことであるが、圏論での同型は定義が異なる
+ ので注意する。
+\end{Definition}
+※しりとり圏はモノかつエピだが同型(凖同型)にはならない例である
+
+圏Cの対象A,Bがあたえられて、
+
+\[
+g \circ f = id_A
+\]
+で
+\[
+f \circ g = id_B
+\]
+になるf,gがあるとき。
+AとBはCの中で同等
+
+
+\begin{align*}
+& あい: あ \to い \\
+& いあ: い \to あ \\
+& id_あ: あ \to あ \\
+& あい \circ いあ \neq id_あ \\
+\end{align*}
+
+
+
+
+\newpage
+
+\section{直積}
+\begin{Definition}[直積] \mbox{}
+
+$\pi^{A,B}_1 : A \times B \to A $, $\pi^{A,B}_2 : A \times B \to B $とな
+ る射が存在する$ <A \times B> $である。
+任意の射$ f : C \to A $,$ g : C \to B $と可換になる 射$ < f,g> = h $ が一通り存在する
+$$
+\xymatrix{
+       & C \ar@{->}[dl]_{f} \ar@{-->}[d]_{f,g} \ar@{->}[dr]^{g}    & \\
+  A    & \ar@{->}[l]^{\pi^{A,B}_1} < A \times B >  \ar@{->}[r]_{\pi^{A,B}_2} & B
+}
+$$
+つまり、fと $<f,g> ; \pi^{<A,B>}_1$ および、g と $<f,g> ; \pi^{<A,B>}_2$ がそれぞれ
+ 可換となっている。
+
+
+\end{Definition}
+
+\[
+h: c \to (f(c),g(c))
+\]
+\[
+h': C \to A \times B
+\]
+
+直積は一つとはかぎらない
+\begin{align*}
+\pi_{1}^{A,B} = \ (a,b) = a \\
+\pi_{2}^{A,B} = \ (b,a) = b \\
+h   = \ a b = (a,b) \\
+f   = \ a b = a \\
+g   = \ a b = b \\
+\end{align*}
+$(c,d) \to (a,b)$
+
+
+
+テンソル積はユニバーサリティー
+
+\newpage
+
+\section{Equaliser}
+\begin{Definition}[Equaliser] \mbox{}
+
+\begin{enumerate}
+\item $f \circ e = g \circ e$
+\item $f \circ h = h \circ g$ならば、$ i \circ p = h $ を満たす唯一の射hが存在する
+\end{enumerate}
+$$
+\xymatrix{
+E \ar@{->}[r]^{i} & A \ar@{->}@<2pt>[r]^{f} \ar@{->}@<-2pt>[r]_{g} & B \\
+C \ar@{-->}[u]_{p} \ar@{->}[ur]_{h} &          &
+}
+$$
+
+
+
+例: \\
+圏Setで、二つの射$f,g : A \to B $について、Aの部分集合Eを
+\[
+E = \{ x \in A | f(x) = g(x) \}
+\]
+と定義し、$ i : E \to A $ を $ i(x) = x $ と定義する。
+部分集合から、元の集合への写像を包含写像あるいは、標準的単射と呼ぶ。
+このとき、
+\[
+ f \circ i = g \circ i
+\]
+が成り立つ。
+
+CをEの部分集合として、
+\[
+ h : C \to A
+\]
+を
+\[
+ h(x) = x
+\]
+と定義すれば、
+\[
+ f \circ h = g \circ h
+\]
+が成り立つ。
+
+この様な時hにについてiは特別な性質を持つ。
+\[
+ h \circ p = i
+\]
+を満たすような
+\[
+ p : C \to E
+\]
+射pが唯一存在する。
+圏Setでは equaliser が常に存在する。
+
+
+
+\[
+ f,g = \{x \in A| f(x) = g(x) \} : A \to B
+\]
+
+
+木下さんはequliserを核とよぶ
+coequliserは陽核
+
+\begin{align*}
+e : C \to A \\
+h : D \to A \\
+\end{align*}
+\[
+ d \rightarrowtail h(d)
+\]
+ with
+\[
+ f \circ h = g \circ h \\
+\]
+ i.e
+\[
+ f \circ h(d) = g \circ h(d)
+\]
+より
+
+\begin{align*}
+ h(d)  \in C. \\
+ k : D \to C \\
+ d \mapsto h(d)
+\end{align*}
+とすればよい
+\[
+ k' : D \to C \\
+\]
+で
+\[
+ d \in D
+\]
+の時
+\[
+ k'(d) = h(d) = k(d)
+\]
+\[
+ k^{\prime} = k
+\]
+
+\end{Definition}
+\newpage
+
+\section{Pullback}
+\begin{Definition}[Pullback] \mbox{}
+
+$f \circ f \prime = g \circ g \prime$である
+$$
+\xymatrix{
+ A \ar@{->}[r]^{f \prime} \ar@{->}[d]_{g \prime} & B \ar@{->}[d]^{f} \\
+ C \ar@{->}[r]_{g}                               & D
+}
+$$
+
+$f \circ k = g \circ k$のとき唯一の射$e : X \to A$が存在し、
+$h = g \prime \circ e$かつ$k = f \prime e$を満たす
+
+
+$$
+\xymatrix{
+X \ar@/^/[drr]^{k} \ar@{-->}[dr]^{e} \ar@/_/[ddr]_{h}   & &               \\
+    & A \ar@{->}[r]^{f \prime} \ar@{->}[d]_{g \prime}   & B \ar@{->}[d]^{f} \\
+    & C \ar@{->}[r]_{g}                                 & D
+}
+$$
+\end{Definition}
+
+
+
+
+
+※アニメーションでやるとわかりやすい
+ニコ動とか
+
+\newpage
+
+\section{関手}
+\begin{Definition}[関手]
+圏A,Bが存在し、
+
+$$\xymatrix{A \ar@{->}[r]^{F} & B}$$
+
+圏Aの任意の対象と任意の射をそれぞれ圏Bを移す写像Fを関手と
+定義する。関手であるとは可換図で以下のように書く
+
+$$
+\xymatrix{
+F(A_1) \ar@{->}[d]_{f} \ar@{=>}[r]_{F} & F(A_1) = B_1 \ar@{->}[d]_{F(f)}  \\
+F(A_2)                 \ar@{=>}[r]_{F} & F(A_2) = B_2
+}
+$$
+
+関手であるとは以下の二つの条件を満たしていることと定義する。
+
+合成
+\[
+ F(g \circ f) = F(g) \circ^{\prime} F(f)
+\]
+
+
+恒等射
+\[
+ F(id_A) = id^{\prime}_F(A)
+\]
+
+
+$$
+\xymatrix{
+F(A_1) \ar@{->}[d]_{f} \ar@{=>}[r]_{F} & F(A_1) = B_1 \ar@{->}[d]_{F(f)}  \\
+F(A_2) \ar@{->}[d]_{g} \ar@{=>}[r]_{F} & F(A_2) = B_2 \ar@{->}[d]_{F(g)}  \\
+F(A_3)                 \ar@{=>}[r]_{F} & F(A_3) = B_3
+}
+$$
+\end{Definition}
+
+
+
+\begin{align*}
+F : C \to D \\
+G : C \to D
+\end{align*}
+
+AがObject
+射fを次の様に定義する
+\[
+ f : A \to B
+\]
+関手Fから関手Gへの射$\mu$を定義
+\[
+ \mu : F \to G \\
+\]
+\[
+ \mu_{A} : F(A) \to G(A)\\
+\]
+次の様に単位元律がなりたつ
+\[
+ G(F) \circ \mu_A = \mu_{B} \circ F(f) \\
+\]
+
+
+関手の様々な特徴
+
+\begin{description}
+
+\item 関手の合成 \mbox{}
+
+$ F : A \to B $
+$ G : B \to C $
+となる場合
+$ G \circ F : A \to C $
+と関手を合成できる。
+
+
+\item 恒等関手 \mbox{}
+
+圏Cが存在し、
+$ F : C \to C  $
+となる関手を恒等関手と呼ぶ。
+この時Fを両側逆関手と呼ぶ
+
+\item 圏の同型 \mbox{}
+
+圏A,Bがが存在し
+$ F : A \to B $
+$ G : B \to A $
+関手F,Gが存在し
+$ G \circ F $
+が
+$ id_{A} $
+$ F \circ G $
+が
+$ id_{B} $
+となる場合同型と呼ぶ
+
+\item 双対関手 \mbox{}
+
+
+\item 充満関手 \mbox{}
+
+集合論での全射に相当する関手。
+
+
+
+圏Cと圏Bが存在し、関手 $ T : B \to C $が存在するとする。
+圏Cの全て対象からなる対$ c, c^{\prime}$と、
+圏Bの全ての射$ g : Tc \to Tc^{\prime} $に対して、
+Cの射$ f : c \to C^{\prime}$ が存在し、$ g = Tf $となる時、
+関手Tは充満であると言う。
+
+
+
+\item 忠実関手 \mbox{}
+
+集合論での単射に相当する関手。
+
+圏Cと圏Bが存在し、
+Cの対象からなる対 $ c, c^{\prime}$と,
+射 $ f_{1},f_{2} : c \to c^{\prime} $について、
+等式 $ Tf_{1} = Tf_{2}$から $ f_{1} = f_{2}$が言えるとき、
+関手Tは忠実あると言う。
+
+
+\item 包含関手 \mbox{}
+
+圏Cと部分圏Sが存在し、部分圏Sの各対象と各射を圏Cに対応させる関手を包含写
+像と呼ぶ。
+包含関手は必ず、忠実関手となる。
+なお、包含関手が充満であるとき、SはCの充満部分圏であると言う。
+
+
+
+\item 関手圏 \mbox{}
+
+関手を対象、自然変換を射とみなした関手圏とよばれる圏が出来る
+
+
+\item 表現可能関手 \mbox
+表現可能対象
+
+\end{description}
+
+\newpage
+
+\section{自然変換}
+\begin{Definition}[自然変換]
+圏C,Dが存在し、CからDへの関手F,Gが存在する事
+\[
+ F,G : C \to D
+\]
+この二つの関手F,Gに $ \mu_{A} $ の様なFからGへ移す射が存在した場合これを自然変換と呼
+ ぶ
+
+各対象を移す
+\[
+ \mu_A : F(A) \to G(A)
+\]
+各写像を移す。この時合成則を満たす事
+\[
+ G(f) \circ \mu_A = \mu_B \circ F(f)
+\]
+
+$$
+\begin{CD}
+F(A) @>\mu_A >> G(A) \\
+@V F(f) VV  @V G(f)VV \\
+F(B) @>\mu_B >> G(B)
+\end{CD}
+$$
+
+\end{Definition}
+
+
+例List
+型を対象とし、型の変換を射みなす圏を考える。
+この時Listの様なデータ構造を定義する関数を関手とする。
+\[
+ rev: List(S) \to List(S)
+\]
+関数revはListの並びを逆にする。
+
+Sは対象、Listを関手、関数revを自然変換とみなす。
+
+\begin{align*}
+& F : List \\
+& G : rev \circ List
+\end{align*}
+F,Gはそれぞれ関手である。
+GはFの逆順のListを作成する関手とする。
+
+ここで、
+\[
+ f : S \to T
+\]
+とする射 $ f $ を定義する
+
+\[
+ rev_T \circ map(f) \simeq map(f) \circ rev_S
+\]
+$$
+\xymatrix{
+S \ar@{->}[d]_{map(f)} \\
+T
+}
+$$
+
+となる条件を射fが満たす場合、自然変換が成立する
+$$
+\xymatrix{
+List(S) \ar@{->}[r]^{rev_S} \ar@{->}[d]_{map(f)}  & List(S) \ar@{->}[d]^{map(f)} \\
+List(T) \ar@{->}[r]^{rev_T}                       & List(T)
+}
+$$
+
+
+
+
+例
+A:可換環 \\
+
+object   : {Z,R,C,Z/mZ } \\
+morphism : 可換環 $\to$ 可換環 の凖同型写像全て \\
+準同型写像は(+,*)を保存する \\
+
+
+\begin{align*}
+f: Z \to Z/mZ \\
+f: K \to K^{\prime} \\
+\end{align*}
+\begin{align*}
+GL_n & K \\
+     & \Downarrow \\
+GL_n & K^{\prime} \\
+\end{align*}
+
+
+B:群
+$ K^{*} : K $の可換な元だけの環
+
+
+\begin{align*}
+rev_T : List(S) \to List(S) \\
+f: S \to T \\
+rev_T \circ map(f) = map(f) \circ rev_S \\
+\end{align*}
+
+
+$$
+\xymatrix{
+A \ar@{->}[d]^{f} \\
+B
+}
+$$
+
+
+\begin{align*}
+B^A \\
+F : A \to B \\
+t : F \to G \\
+\end{align*}
+
+となる自然変換t
+
+dom(t) = F
+cod(t) = G
+
+dom(s) = G
+cod(s) = H
+
+
+
+コンポーネント
+自然変換はコンポーネントとも呼ばれる
+
+自然同型
+自然変換に対して逆射が存在し、が可逆である場合これ自然同型と呼ぶ。
+記号では次の様に書く。
+$ A \cong B$
+
+
+\begin{sloppypar}
+
+\end{sloppypar}
+
+
+\section{双対}
+
+双対とは圏のドメインとコドメインを入れ替えたものである。
+
+双対概念
+双対原理
+
+
+
+
+以下の表の例では左右がそれぞれ双対の関係にある \\
+\begin{tabular}{|l|r|}
+\hline
+モノ      & エピ        \\
+直積      & 直和        \\
+equaliser & coequaliser \\
+pullback  & pushout     \\
+limit     & colimit     \\
+\hline
+\end{tabular}
+
+\section{直和}
+直積の双対
+$$
+\xymatrix{
+A \ar[dr] \ar[drr] & & \\
+ & A + B \ar[r] & X \\
+ B \ar[ur] \ar[urr] & &
+}
+$$
+
+直積
+$$
+\xymatrix{
+       & C \ar@{->}[dl]_{f} \ar@{-->}[d]_{f,g} \ar@{->}[dr]^{g}    & \\
+  A    & \ar@{->}[l]^{\pi^{A,B}_1} < A \times B >  \ar@{->}[r]_{\pi^{A,B}_2} & B
+}
+$$
+直和
+$$
+\xymatrix{
+ & A & \\
+A \ar@{->}[ur]_{f} & \ar@{->}[l]_{\pi^{A,B}_1} A+B \ar@{->}[r]_{\pi^{A,B}_2} \ar@{-->}[u]_{f+g} & B \ar@{->}[ul]_{g}
+}
+$$
+直積と直和を見比べてみれば、矢印の向きが逆になっているのが分かるだろう。
+そのため、直和はcoequaliserとも呼ばれる。
+接頭辞のcoはラテン語のcontra(反逆)からきている。
+
+
+\section{coequaliser}
+equaliserの双対
+
+$$
+\xymatrix{
+A \ar@{->}@<2pt>[r]^{f} \ar@{->}@<-2pt>[r]_g &
+B \ar@{->}[r]^{i} \ar@{-->}[dr]^{h} &
+E \ar@{->}[d]^{p} \\
+ &  & C
+}
+$$
+
+
+\section{pushout}
+pullbackの双対
+
+
+$$
+\xymatrix{
+A                           & \ar@{->}[l]^{f \prime} B   \\
+\ar@{->}[u]^{g \prime} C    & \ar@{->}[l]^{g}        D \ar@{->}[u]^{f}
+}
+$$
+
+
+
+$$
+\xymatrix{
+X \ar@/^/[drr]^{k} \ar@{-->}[dr]^{e} \ar@/_/[ddr]_{h}   & &               \\
+    & A \ar@{->}[r]^{f \prime} \ar@{->}[d]_{g \prime}   & B \ar@{->}[d]^{f} \\
+    & C \ar@{->}[r]_{g}                                 & D
+}
+$$
+
+
+$$
+\xymatrix{
+A \ar@{->}[r]^{f \prime} \ar@{->}[d]_{g \prime} & B \ar@{->}[d]^{f} \ar@/^/[ddr]^{k}& \\
+C \ar@{->}[r]_{g} \ar@/_/[drr]_{h}              & D  \ar@{-->}[dr]^{e}              & \\
+   & & X
+}
+$$
+
+\newpage
+
+\section{エピ}
+
+\begin{Definition}[エピ] \mbox{}
+
+圏Cに次の様な任意の射おいて、
+$$
+\xymatrix{
+A \ar@{->}[r]^{f} & B \ar@{->}@<2pt>[r]^{k} \ar@{->}@<-2pt>[r]_{h} & C
+}
+$$
+$ g \circ f = h \circ f $ならば$g = h$がとなる時、
+\[
+ f : A \to B
+\]
+はエピと呼ばれる
+\[
+ f: A \twoheadrightarrow B
+\]
+とも表される。
+圏Setにおいてエピは全射に相当する
+
+\end{Definition}
+
+\[
+f;h = f;h \rightarrow k = h
+\]
+\[
+ \forall b \in B
+\]
+\[
+ \exists  a \in A
+\]
+\[
+f(a)  = b
+\]
+
+$\forall a \in A$ について、$f(a) \neq b$と仮定する
+\[
+k(f(a))  = (k \circ )
+\]
+
+
+
+
+\begin{Proof}[証明1] \mbox{}
+
+\begin{align*}
+ \exists b \in B, \\
+ \forall a \in A, \\
+ f(a) \neq b \tag{1}
+\end{align*}
+と仮定する
+任意の射$ k(x): B \to C $をとる
+\[
+h(x) =
+ \begin{cases}
+  k(x)         & x \neq b \\
+  k(x) + 1     & x  =   b
+ \end{cases}
+\]
+を仮定
+\begin{align*}
+ h \neq k \tag{2}
+\end{align*}
+である\\
+1より
+\begin{align*}
+ \forall x f(a) & \neq b \\
+ \forall x (h \circ f)(x) & = (k \circ f)(x) \tag{3}
+\end{align*}
+3より   $k=h$と矛盾
+よって 1が間違い
+\end{Proof}
+
+\[
+\forall b \in B, \exists a \in, f(a) = b
+\]
+
+\begin{Proof}[証明2] \mbox{}
+
+\[
+ f ; h = f ; k
+\]
+ならば
+\[
+ k = h
+\]
+
+$\forall b \in B, \exists a \in A f(a) = b$ を示せばよい
+$\exists b_{1} \in B, \forall a \in A $について、$f(a) \in B \neq b_{1} \in B$ と仮定する
+
+\[
+C = \{0, 1 \}, k(b) = 0
+\]
+\[
+h(b) =
+ \begin{cases}
+  0 &   b \neq b_{1} \\
+  1 &   b  =   b_{1}
+  \end{cases}
+\]
+
+
+\[
+ (h \circ f)(a) = h (f(a)) = 0 = k(f(a)) = (k \circ f)(a)
+\]
+i.e.
+\[
+h \circ f = k \circ f
+\]
+しかし、 $k \neq  h$ と矛盾
+\end{Proof}
+
+\newpage
+\section{コンマ圏}
+
+$$
+\xymatrix{
+A \ar@{->}[r]^{f \prime} \ar@{->}[d]_{g \prime} & B \ar@{->}[d]^{f} \ar@/^/[ddr]^{k}& \\
+C \ar@{->}[r]_{g} \ar@/_/[drr]_{h}              & D  \ar@{-->}[dr]^{e}              & \\
+   & & X
+}
+$$
+
+
+
+
+
+
+\section{limitとcolimit}
+
+
+
+\section{米田の補題}
+\begin{Definition}
+表現可能関手
+普遍射
+普遍対象
+
+
+米田の埋め込み
+
+
+
+
+$ Hom_{Sets^{C}}(X,F)   \longrightarrow^{\sim} FX $
+
+
+
+共変関手と反変関手
+
+$ Home_{C}(C, -) = C \to Sets $
+$ Home_{C}(-, C)  C^{op} \to Sets $
+
+
+
+
+
+\end{Definition}
+
+
+\section{随伴}
+
+
+
+エクセルを使える人なら、シートに数字を入力すると数式が正しい答えを出してくれる、という事は当然のように知っていますよね。
+
+\end{document}
